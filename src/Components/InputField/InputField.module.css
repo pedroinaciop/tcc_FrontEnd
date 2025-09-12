@@ -1,0 +1,110 @@
+.formGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.formGroup label {
+  color: var(--textColor);
+  margin-bottom: 0.313rem;
+}
+
+.labelAutocomplete {
+  color: var(--textColor);
+  margin-bottom: 0.313rem;
+}
+
+.formGroup input,
+textarea,
+select {
+  padding: 0.5rem 0.625rem;
+  font-size: 0.875rem;
+  border: 0.063rem solid var(--gray);
+  border-radius: 0.313rem;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.autoCompleteField {
+  width: 25%;
+  border-radius: 0.313rem;
+}
+
+#nameField {
+  width: 70%;
+}
+
+#brandPriceField,
+#pricePromocionalField,
+#codigoReferenciaField {
+  width: 25%;
+}
+
+#brandField,
+#barCodeField,
+#imageField {
+  width: 45%;
+}
+
+#stockField,
+#stockAlertField {
+  width: 11.1%;
+}
+
+#batchField {
+  width: 12%;
+}
+
+#validityField {
+  width: 11%;
+}
+
+#descriptionField textarea {
+  resize: none;
+}
+
+#descriptionField textarea {
+  height: 9.375rem;
+}
+
+#categoryField,
+#subCategoryField,
+#anvisaRegisterField {
+  width: 48%;
+}
+
+#unitField,
+#weightField,
+#dimensionField {
+  width: 15%;
+}
+
+#options {
+  display: flex;
+  gap: 2.188rem;
+  width: 45%;
+}
+
+#sterilityField,
+#activeField,
+#freeShippingField {
+  height: 15px;
+  width: 15px;
+}
+
+input:focus {
+  border: 0.063rem solid var(--activeButton);
+}
+
+input:read-only {
+  background-color: #f1f1f1;
+  padding: 0.5rem 0.75rem;
+  color: var(--readOnlyColor);
+}
+
+.errorMessage {
+  height: 0px;
+  color: var(--red);
+  font-size: 0.75rem;
+  position: relative;
+  top: 0.125rem;
+}

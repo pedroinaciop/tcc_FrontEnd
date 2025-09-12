@@ -1,0 +1,108 @@
+.main {
+  min-height: 100vh; 
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+  touch-action: manipulation;
+}
+
+.formContent {
+  height: auto;
+  min-width: 30vw;
+  overflow: hidden;
+}
+
+.form {
+  height: 100%;  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  overflow: hidden;
+}
+
+.imgContent {
+  height: 100vh;
+  min-width: 70vw;
+  display: flex;
+  justify-content: center;
+  background-color: var(--activeButton);
+}
+
+.loginImg {
+  width: 600px;
+}
+
+.title {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: var(--textColor);
+}
+
+.subtitle {
+  font-size: 1rem;
+  margin-bottom: 10px;
+  color: var(--textColor);
+}
+
+#userField, #passwordField {
+  width: 18.75rem;
+}
+
+.registerMessage {
+  font-size: 0.9rem;
+  color: var(--textColor);
+}
+
+.registerMessage a {
+  font-weight: bold;
+  color: var(--mainColor);
+}
+
+.registerMessage a:hover {
+  color: var(--activeButton);
+}
+
+
+.submitButton {
+  height: 2.7rem;
+  width: 18.75rem;
+
+  margin-top: 10px;
+  border: none;
+  font-weight: bold;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  color: var(--white);
+  background-color: var(--mainColor);
+  box-shadow: 0 2px 0 rgba(5, 145, 255, 0.1);
+}
+
+.submitButton:hover {
+  background-color: var(--activeButton);
+}
+
+.submitButton:focus {
+  outline: none;
+  background-color: var(--activeButton);
+}
+
+.submitButton:active {
+  outline: none;
+  background-color: var(--mainColor);
+}
+
+.submitButton:focus-visible {
+  outline: 2px solid var(--activeButton);
+}
+
+@media (max-width: 1024px) { 
+  .imgContent {
+    display: none;
+  }
+
+  .form {
+   width: 100vw;
+  }
+}

@@ -1,0 +1,25 @@
+.btnRegister {
+    margin: 0rem 1.50rem 0rem 0rem;
+    padding: 1rem;
+    border: none;
+    font-weight: bold;
+    border-radius: 0.5rem;
+    background-color: var(--mainColor);
+    color: var(--white);
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  
+  .btnRegister:hover {
+    background-color: var(--activeButton);
+  }
+  
+  .btnRegister:focus {
+    outline: none;
+    background-color: var(--activeButton);
+  }
+  
+  .btnRegister:active {
+    outline: none;
+    background-color: var(--mainColor);
+  }

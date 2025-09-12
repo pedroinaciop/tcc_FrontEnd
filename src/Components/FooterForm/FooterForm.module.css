@@ -1,0 +1,17 @@
+@import url("../../App.css");
+
+.footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0rem 1.5rem;
+}
+
+.updates {
+  display: flex;
+  gap: 1.563rem;
+}
+
+.footer input {
+  background-color: var( --light-gray);
+}
