@@ -7,6 +7,7 @@ import LoginUser from "./Pages/LoginPage";
 import UserForm from "./Pages/UserForm";
 import UserPage from "./Pages/UserPage";
 import UsuarioInfoForm from "./Pages/UsuarioInfoForm";
+import UsuarioInfoPage from "./Pages/UsuarioInfoPage";
 
 import "@ant-design/v5-patch-for-react-19";
 import { SnackbarProvider } from "notistack";
@@ -27,7 +28,8 @@ function App() {
                   <Route path="/cadastros/usuarios" element={<UserPage/>} />
                   <Route path="/cadastros/usuarios/novo" element={<UserForm/>} />
 
-                  <Route path="/usuario/informacoes/" element={<UsuarioInfoForm/>} />
+                  <Route path="/cadastros/info/usuario/" element={<UsuarioInfoPage/>} />
+                  <Route path="/cadastros/info/usuario/novo" element={<UsuarioInfoForm/>} />
 
                 </Route>
             </Route>

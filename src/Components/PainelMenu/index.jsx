@@ -18,7 +18,7 @@ function getItem(label, key, icon, children, pathname) {
 
 const items = [
   getItem('Home', '1', <HomeOutlined />, null, '/home'),
-  getItem('Dados Corporais', '2', <SolutionOutlined />, null, '/usuario/informacoes'),
+  getItem('Dados Corporais', '2', <SolutionOutlined />, null, '/cadastros/info/usuario/'),
   getItem('Registrar Refeições', '3', <PlusOutlined />, null, '/cadastros/refeicao'),
  
   getItem('Relatórios', '4', <FileOutlined />, [

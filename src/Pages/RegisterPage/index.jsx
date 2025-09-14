@@ -50,7 +50,7 @@ const RegisterUser = () => {
                 nomeCompleto: data.nomeCompleto,
                 login: data.email,
                 senha: data.senha,
-                regra: 0,
+                regra: 1,
                 dataCriacao: formattedDate
             })
             .then(response => {
