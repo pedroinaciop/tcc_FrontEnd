@@ -68,7 +68,7 @@ const RegisterUser = () => {
                 <form onSubmit={handleSubmit(registrar)} className={styled.form}>
                     <div>
                         <h2 className={styled.title}>Olá, registre sua conta!</h2>
-                        <p className={styled.subtitle}>Preencha e aproveite o Cibus:</p>
+                        <p className={styled.subtitle}>Preencha e aproveite o site:</p>
                     </div>
                     {errorAPI && <p>{errorAPI}</p>}
 

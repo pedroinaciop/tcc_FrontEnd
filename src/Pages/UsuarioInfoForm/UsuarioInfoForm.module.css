@@ -13,21 +13,20 @@
   padding: 1.5rem;
 }
 
-#fullNameField {
-  width: 65%;
+#dataRegistroCampo, #dataNascimentoCampo, #idadeCampo, #alturaCampo, 
+#sexoBiologicoCampo, #doencasPreExistentesCampo, #alergiasCampo, #intoleranciasCampo, #nivelAtividadeFisicaCampo,
+#nivelAtividadeFisicaCampo, #pesoAtualCampo, #pesoDesejadoCampo, #objetivoCampo,#medidaCinturaCampo, #medidaAntebracoDireitoCampo {
+  width: 22%;
 }
 
-#emailField {
-  width: 32%;
+#medidaQuadrilCampo, #medidaToraxCampo, #medidaBracoDireitoCampo, #medidaBracoEsquerdoCampo {
+  width: 15.5%;
 }
 
-#passwordField {
-    width: 48.5%;
-}
-
-#confirmPasswordField {
-    width: 48.5%;
-}
+#medidaAntebracoEsquerdoCampo, #medidaCoxaDireitaCampo, #medidaCoxaEsquerdaCampo,
+#medidaPanturrilhaDireitaCampo, #medidaPanturrilhaEsquerdaCampo {
+  width: 11%;
+ }
 
 .errorMessage {
   height: 0rem;

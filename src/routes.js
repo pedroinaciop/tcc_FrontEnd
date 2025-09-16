@@ -28,8 +28,8 @@ function App() {
                   <Route path="/cadastros/usuarios" element={<UserPage/>} />
                   <Route path="/cadastros/usuarios/novo" element={<UserForm/>} />
 
-                  <Route path="/cadastros/info/usuario/" element={<UsuarioInfoPage/>} />
-                  <Route path="/cadastros/info/usuario/novo" element={<UsuarioInfoForm/>} />
+                  <Route path="info/usuario/" element={<UsuarioInfoPage/>} />
+                  <Route path="info/usuario/novo" element={<UsuarioInfoForm/>} />
 
                 </Route>
             </Route>

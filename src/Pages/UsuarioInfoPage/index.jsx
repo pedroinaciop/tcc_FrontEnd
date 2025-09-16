@@ -13,24 +13,24 @@ import * as XLSX from 'xlsx';
 const UsuarioInfoPage = () => {
     const [keywords, setKeywords] = useState('');
     const { enqueueSnackbar } = useSnackbar();
-    const [users, setUsers] = useState([]);
+    const [userInfo, setUserInfo] = useState([]);
 
-    const deleteUser = (usuario_id) => {
-        api.delete(`usuarios/${usuario_id}`)
+    const deleteUser = (id) => {
+        api.delete(`info/usuarios/${id}`)
             .then(() => {
                 window.location.reload();
                 enqueueSnackbar("Deletado com sucesso!", { variant: "success", anchorOrigin: { vertical: "bottom", horizontal: "right" } });
             })
     };
 
-    const confirmDelete = (usuario_id) => {
+    const confirmDelete = (id) => {
         confirmAlert({
             title: 'Confirmação',
             message: 'Deseja excluir esse registro?',
             buttons: [
                 {
                     label: 'Sim',
-                    onClick: () => deleteUser(usuario_id)
+                    onClick: () => deleteUser(id)
                 },
                 {
                     label: 'Não',
@@ -41,13 +41,13 @@ const UsuarioInfoPage = () => {
     };
 
     useEffect(() => {
-        api.get('/usuarios', {
+        api.get('/info/usuarios', {
             headers: {
                 'Content-Type': 'application/json'
             }
         })
             .then(function (resposta) {
-                setUsers(resposta.data);
+                setUserInfo(resposta.data);
             })
             .catch(function (error) {
                 console.error("Erro:", error);
@@ -55,15 +55,16 @@ const UsuarioInfoPage = () => {
     }, [])
 
     const columns = [
-        { title: 'ID', dataIndex: 'usuario_id', width: 50,},
-        { title: 'NOME COMPLETO', dataIndex: 'nomeCompleto'},
-        { title: 'EMAIL', dataIndex: 'email'},
-        { title: 'ÚLTIMA ALTERAÇÃO', dataIndex: 'updateDate'},
+        { title: 'ID', dataIndex: 'id', width: 20},
+        { title: 'DATA DE REGISTRO', dataIndex: 'dataRegistro', width: 200},
+        { title: 'PESO ATUAL', dataIndex: 'pesoAtual'},
+        { title: 'ALTURA', dataIndex: 'altura'},
+        { title: 'IDADE', dataIndex: 'idade'},
         {
             title: 'EDITAR',
             width: 140,
             render: (_, row) => (
-                <Button key="editar" href={`/cadastros/usuarios/${row.user_id}`} onClick={() => window.alert('Confirmar atualização?')} icon={<EditOutlined />} >
+                <Button key="editar" href={`/info/usuarios/${row.id}`} onClick={() => window.alert('Confirmar atualização?')} icon={<EditOutlined />} >
                     Editar
                 </Button>
             ),
@@ -72,7 +73,7 @@ const UsuarioInfoPage = () => {
             title: 'DELETAR',
             width: 140,
             render: (_, row) => (
-                <Button key="deletar" href={`/cadastros/usuarios/${row.user_id}`} onClick={(e) => e.preventDefault(confirmDelete(row.user_id))} icon={<DeleteOutlined />}>
+                <Button key="deletar" href={`/info/usuarios/${row.id}`} onClick={(e) => e.preventDefault(confirmDelete(row.id))} icon={<DeleteOutlined />}>
                     Deletar
                 </Button>
             ),
@@ -80,14 +81,14 @@ const UsuarioInfoPage = () => {
     ];
 
     const handleDownload = () => {
-        if (users.length > 0) {
+        if (userInfo.length > 0) {
             const today = new Date().getDate();
             const month = new Date().getMonth() + 1;
             const year = new Date().getFullYear();
-            const ws = XLSX.utils.json_to_sheet(users);
+            const ws = XLSX.utils.json_to_sheet(userInfo);
             const wb = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(wb, ws, 'Registros');
-            XLSX.writeFile(wb, `registros_${today}_${month}+${year}.xlsx`);
+            XLSX.writeFile(wb, `registros_${today}_${month}_${year}.xlsx`);
         } else {
             enqueueSnackbar('Nenhum registro encontrado', { variant: 'info', anchorOrigin: { vertical: "bottom", horizontal: "right" } });
         }
@@ -97,8 +98,8 @@ const UsuarioInfoPage = () => {
         if (!keywords) return data;
     
         return data.filter((item) =>
-            item.fullName?.toLowerCase().includes(keywords.toLowerCase()) ||
-            item.email?.toLowerCase().includes(keywords.toLowerCase()) 
+            item.dataRegistro?.toLowerCase().includes(keywords.toLowerCase()) ||
+            item.pesoAtual?.toLowerCase().includes(keywords.toLowerCase()) 
         );
     };        
 
@@ -107,7 +108,7 @@ const UsuarioInfoPage = () => {
             <section className={styled.mainContent}>
                 <header className={styled.header}>
                     <h1>Minhas Informações</h1>
-                    <p>{users.length} Registro(s) encontrado(s)</p>
+                    <p>{userInfo.length} Registro(s) encontrado(s)</p>
                 </header>
                 <div className={styled.functions}>
                     <Input.Search
@@ -129,12 +130,12 @@ const UsuarioInfoPage = () => {
             </section>
             <ConfigProvider locale={ptBR}>
                 <ProTable
-                    rowKey="user_id"
+                    rowKey="id"
                     size="large"
                     search={false}
                     bordered={false}
                     columns={columns}
-                    dataSource={filterData(users, keywords)}
+                    dataSource={filterData(userInfo, keywords)}
                     params={{ keywords }}
                     pagination={{
                         pageSize: 4,
