@@ -19,10 +19,11 @@ function getItem(label, key, icon, children, pathname) {
 const items = [
   getItem('Home', '1', <HomeOutlined />, null, '/home'),
   getItem('Minhas Informações', '2', <SolutionOutlined />, null, '/info/usuario/'),
-  getItem('Registrar Refeições', '3', <PlusOutlined />, null, '/refeicao'),
+  getItem('Registrar Medidas', '3', <PlusOutlined />, null, '/medidas'),
+  getItem('Registrar Refeições', '4', <PlusOutlined />, null, '/refeicao'),
  
-  getItem('Relatórios', '4', <FileOutlined />, [
-    getItem('Refeições por período', '5', null, null, '/cadastros/entrada'),
+  getItem('Relatórios', '5', <FileOutlined />, [
+    getItem('Refeições por período', '6', null, null, '/cadastros/entrada'),
   ]),
 ];
 

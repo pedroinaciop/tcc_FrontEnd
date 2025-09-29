@@ -8,6 +8,10 @@ import UserForm from "./Pages/UserForm";
 import UserPage from "./Pages/UserPage";
 import UsuarioInfoForm from "./Pages/UsuarioInfoForm";
 import UsuarioInfoPage from "./Pages/UsuarioInfoPage";
+import RefeicaoForm from "./Pages/RefeicaoForm";
+import RefeicaoPage from "./Pages/RefeicaoPage"
+import MedidasForm from "./Pages/MedidasForm";
+import MedidasPage from "./Pages/MedidasPage";
 
 import "@ant-design/v5-patch-for-react-19";
 import { SnackbarProvider } from "notistack";
@@ -25,11 +29,20 @@ function App() {
               <Route element={<PrivateRoute/>}>
                 <Route path="/" element={<BasePage />}>
                   <Route path="*" element={<NotFoundPage />} />
+                  
                   <Route path="/cadastros/usuarios" element={<UserPage/>} />
                   <Route path="/cadastros/usuarios/novo" element={<UserForm/>} />
 
-                  <Route path="info/usuario/" element={<UsuarioInfoPage/>} />
-                  <Route path="info/usuario/novo" element={<UsuarioInfoForm/>} />
+                  <Route path="/info/usuario/" element={<UsuarioInfoPage/>} />
+                  <Route path="/info/usuario/novo" element={<UsuarioInfoForm/>} />
+                  <Route path="/editar/info/usuario/:id" element={<UsuarioInfoForm/>} />
+
+                  <Route path="/medidas/" element={<MedidasPage/>} />
+                  <Route path="/medidas/novo" element={<MedidasForm/>} />
+                  <Route path="/editar/medidas/:id" element={<MedidasForm/>} />
+                  
+                  <Route path="/refeicao" element={<RefeicaoPage/>} />
+                  <Route path="/refeicao/novo" element={<RefeicaoForm/>} />
 
                 </Route>
             </Route>
