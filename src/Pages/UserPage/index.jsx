@@ -7,8 +7,8 @@ import styled from './UserPage.module.css';
 import { NavLink } from 'react-router-dom';
 import ptBR from 'antd/lib/locale/pt_BR';
 import { useSnackbar } from 'notistack';
+import api from '../../services/api';
 import * as XLSX from 'xlsx';
-import api from '../../services/api'
 
 const UserPage = () => {
     const [keywords, setKeywords] = useState('');

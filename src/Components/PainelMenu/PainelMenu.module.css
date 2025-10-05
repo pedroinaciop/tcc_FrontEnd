@@ -1,9 +1,46 @@
 .sider {
   min-height: 100vh;
   overflow: auto;
+  background-color: var(--mainColor);
+  color: var(--white);
+}
+
+.menuItems {
+  font-size: var(--fontPadrao);
+  background-color: var(--mainColor);
+}
+
+.menuItems :global(.ant-menu-item) {
+  color: var(--white);
+}
+
+.menuItems :global(.ant-menu-item:hover) {
+  background-color: var(--activeButton); 
+  color: var(--white);
+}
+
+.menuItems :global(.ant-menu-item-selected) {
+  background-color: var(--activeButton) !important;
+  color: var(--white) !important;
+}
+
+.menuItems :global(.ant-menu-sub) {
+  background-color: var(--mainColor) !important;
+  color: var(--white) !important;
+}
+
+.menuItems :global(.ant-menu-submenu-title) {
+  background-color: var(--mainColor) !important;
+  color: var(--white) !important;
+}
+
+:global(.ant-layout-sider-trigger) {
+  background-color: var(--activeButton) !important;
+  color: var(--white) !important;
 }
 
 .userName {
+  font-size: var(--fontPadrao);
   font-weight: bold;
   color: white;
   padding: 0px 0px 10px 0px;

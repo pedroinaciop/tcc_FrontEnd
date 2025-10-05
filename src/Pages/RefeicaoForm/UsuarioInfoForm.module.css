@@ -1,0 +1,43 @@
+@import url("../../App.css");
+
+.appContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.3rem;
+  padding: 1.25rem 1.25rem 0.125rem 1.25rem;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  padding: 1.5rem;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+#dataRegistroCampo, #dataNascimentoCampo, #idadeCampo, #alturaCampo, 
+#sexoBiologicoCampo, #doencasPreExistentesCampo, #alergiasCampo, #intoleranciasCampo, #nivelAtividadeFisicaCampo,
+#nivelAtividadeFisicaCampo, #pesoAtualCampo, #pesoDesejadoCampo, #objetivoCampo,#medidaCinturaCampo, #medidaAntebracoDireitoCampo {
+  width: 22%;
+}
+
+#medidaQuadrilCampo, #medidaToraxCampo, #medidaBracoDireitoCampo, #medidaBracoEsquerdoCampo {
+  width: 15.5%;
+}
+
+#medidaAntebracoEsquerdoCampo, #medidaCoxaDireitaCampo, #medidaCoxaEsquerdaCampo,
+#medidaPanturrilhaDireitaCampo, #medidaPanturrilhaEsquerdaCampo {
+  width: 11%;
+ }
+
+.errorMessage {
+  height: 0rem;
+  color: var(--red);
+  font-size: 0.75rem;
+  position: relative;
+  top: 0.125rem;
+}

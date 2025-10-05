@@ -1,16 +1,29 @@
 :root {
   --red: #ff0000;
   --white: #ffffff;
-  --mainColor: #1677ff;
+  --mainColor: #169559;
   --mainColorBackGround: #1677ff6d;
   --secondColor: #000c17;
-  --activeButton: #4096ff;
+  --activeButton: #1EB882;
   --gray: #cccccc;
   --textColor: #374151;
   --black: #000000;
   --background-secondary: #f1f0f5;
   --light-gray: #e6e6e6;
   --readOnlyColor: #676767;
+  --fontPadrao: 1rem;
+  --headerFont: 1.875rem;
+}
+
+input[type] {
+  border-color: #D9D9D9;
+  border-width: 1px; 
+  border-style: solid; 
+  height: 22px;
+}
+
+:global(.ant-select-selector) {
+  font-size: var(--fontPadrao);
 }
 
 .App {

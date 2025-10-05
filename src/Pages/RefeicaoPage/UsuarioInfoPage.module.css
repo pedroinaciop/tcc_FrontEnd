@@ -20,7 +20,7 @@
 }
 
 .header p {
-  font-size: var(--fontPadrao);
+  font-size: 0.875rem;
   align-self: center;
 }
 

@@ -3,7 +3,7 @@ import InputField from '../../Components/InputField';
 import styled from './FooterForm.module.css'
 import { useForm } from 'react-hook-form';
 
-const FooterForm = ({updateUserField, updateDateField, createDateField, createUserField, title}) => {
+const FooterForm = ({updateDateField, includeDateField, title}) => {
     const { register } = useForm();
     return (
         <footer className={styled.footer}>
@@ -12,23 +12,13 @@ const FooterForm = ({updateUserField, updateDateField, createDateField, createUs
                 <ButtonForm type="reset" text="Limpar" />
             </div>
             <div className={styled.updates}>
-                <InputField
-                    idDiv="createDate"
-                    idInput="createDate"
-                    label="Data de Criação"
+                 <InputField
+                    idDiv="includeDate"
+                    idInput="includeDate"
+                    label="Data de Inclusão"
                     type="text"
                     readOnly
-                    text={createDateField}
-                    register={register}
-                />
-
-                <InputField
-                    idDiv="createUser"
-                    idInput="createUser"
-                    label="Usuário de Criação"
-                    type="text"
-                    readOnly
-                    text={createUserField}
+                    text={includeDateField}
                     register={register}
                 />
                 
@@ -40,17 +30,7 @@ const FooterForm = ({updateUserField, updateDateField, createDateField, createUs
                     readOnly
                     text={updateDateField}
                     register={register}
-                />
-
-                <InputField
-                    idDiv="updateDate"
-                    idInput="updateUser"
-                    label="Usuário de Alteração"
-                    type="text"
-                    readOnly
-                    text={updateUserField}
-                    register={register}
-                />
+                />        
             </div>
         </footer>
     );

@@ -1,31 +1,31 @@
 import { DownloadOutlined, PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { ConfigProvider, Input, Button, Modal } from 'antd';
-import styled from './UsuarioInfoPage.module.css';
+import { NavLink, useNavigate } from 'react-router-dom';
+import styled from './MedidasPage.module.css';
 import ProTable from '@ant-design/pro-table';
 import { useState, useEffect } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
 import ptBR from 'antd/lib/locale/pt_BR';
 import { useSnackbar } from 'notistack';
 import api from '../../services/api';
 import * as XLSX from 'xlsx';
 
-const UsuarioInfoPage = () => {
+const MedidasPage = () => {
      const navigate = useNavigate();
     const [keywords, setKeywords] = useState('');
-    const [userInfo, setUserInfo] = useState([]);
+    const [medidas, setMedidas] = useState([]);
     const { enqueueSnackbar } = useSnackbar();
 
     const columns = [
-
+        { title: 'ID', dataIndex: 'id', width: 50},
         { title: 'DATA DE REGISTRO', dataIndex: 'dataRegistro', width: 200},
-        { title: 'IDADE', dataIndex: 'idade'},
-        { title: 'GÊNERO', dataIndex: 'sexoBiologico'},
-        { title: 'NÍVEL ATIVIDADE FÍSICA', dataIndex: 'nivelAtividadeFisica'},
+        { title: 'PESO ATUAL', dataIndex: 'pesoAtual'},
+        { title: 'PESO DESEJADO', dataIndex: 'pesoDesejado'},
+        { title: 'ALTURA', dataIndex: 'altura'},
         {
             title: 'EDITAR',
             width: 140,
             render: (_, row) => (
-                <Button key="editar" onClick={() => navigate(`/editar/info/usuario/${row.id}`)} icon={<EditOutlined />}>
+                <Button key="editar" onClick={() => navigate(`/editar/medidas/${row.id}`)} icon={<EditOutlined />}>
                     Editar
                 </Button>
             ), 
@@ -34,7 +34,7 @@ const UsuarioInfoPage = () => {
             title: 'DELETAR',
             width: 140,
             render: (_, row) => (
-               <Button key="deletar" href={`/info/usuario/${row.id}`} onClick={(e) => {e.preventDefault(confirmDelete(row.id))}} icon={<DeleteOutlined />}>
+               <Button key="deletar" href={`/registro/saude/${row.id}`} onClick={(e) => {e.preventDefault(confirmDelete(row.id))}} icon={<DeleteOutlined />}>
                     Deletar
                 </Button>
             ),
@@ -53,7 +53,7 @@ const UsuarioInfoPage = () => {
     };
 
     const deleteUser = (id) => {
-        api.delete(`info/usuarios/${id}`)
+        api.delete(`registro/saude/${id}`)
             .then(() => {
                 window.location.reload();
                 enqueueSnackbar("Deletado com sucesso!", { 
@@ -64,13 +64,13 @@ const UsuarioInfoPage = () => {
     };
 
     useEffect(() => {
-        api.get('/info/usuarios', {
+        api.get('/registro/saude', {
             headers: {
                 'Content-Type': 'application/json'
             }
         })
             .then(function (resposta) {
-                setUserInfo(resposta.data);
+                setMedidas(resposta.data);
             })
             .catch(function (error) {
                 console.error("Erro:", error);
@@ -78,11 +78,11 @@ const UsuarioInfoPage = () => {
     }, [])
 
     const handleDownload = () => {
-        if (userInfo.length > 0) {
+        if (medidas.length > 0) {
             const today = new Date().getDate();
             const month = new Date().getMonth() + 1;
             const year = new Date().getFullYear();
-            const ws = XLSX.utils.json_to_sheet(userInfo);
+            const ws = XLSX.utils.json_to_sheet(medidas);
             const wb = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(wb, ws, 'Registros');
             XLSX.writeFile(wb, `registros_${today}_${month}_${year}.xlsx`);
@@ -104,8 +104,8 @@ const UsuarioInfoPage = () => {
         <>
             <section className={styled.mainContent}>
                 <header className={styled.header}>
-                    <h1>Minhas Informações</h1>
-                    <p>{userInfo.length} Registro(s) encontrado(s)</p>
+                    <h1>Medidas</h1>
+                    <p>{medidas.length} Registro(s) encontrado(s)</p>
                 </header>
                 <div className={styled.functions}>
                     <Input.Search
@@ -132,7 +132,7 @@ const UsuarioInfoPage = () => {
                     search={false}
                     bordered={false}
                     columns={columns}
-                    dataSource={filterData(userInfo, keywords)}
+                    dataSource={filterData(medidas, keywords)}
                     params={{ keywords }}
                     pagination={{
                         pageSize: 4,
@@ -144,4 +144,4 @@ const UsuarioInfoPage = () => {
     );
 }
 
-export default UsuarioInfoPage;
+export default MedidasPage;

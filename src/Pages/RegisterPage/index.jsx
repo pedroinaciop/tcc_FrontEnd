@@ -1,14 +1,14 @@
-import loginImg from "../../assets/images/login_img.svg";
 import InputPassword from "../../Components/InputPassword"
+import loginImg from "../../assets/images/login_img.svg";
 import { zodResolver } from '@hookform/resolvers/zod';
 import InputField from "../../Components/InputField";
-import styled from "./Register.module.css";
 import { useNavigate } from "react-router-dom";
+import { enqueueSnackbar } from "notistack";
+import styled from "./Register.module.css";
 import { useForm } from 'react-hook-form';
-import api from '../../services/api'
+import api from '../../services/api';
 import { useState } from "react";
 import { z } from "zod";
-import { enqueueSnackbar } from "notistack";
 
 const RegisterUser = () => {
     const [errorAPI, setError] = useState(null);
@@ -68,7 +68,7 @@ const RegisterUser = () => {
                 <form onSubmit={handleSubmit(registrar)} className={styled.form}>
                     <div>
                         <h2 className={styled.title}>Olá, registre sua conta!</h2>
-                        <p className={styled.subtitle}>Preencha e aproveite o Cibus:</p>
+                        <p className={styled.subtitle}>Preencha e aproveite o site:</p>
                     </div>
                     {errorAPI && <p>{errorAPI}</p>}
 
