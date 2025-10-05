@@ -36,11 +36,12 @@
   }
    
   .header h1 {
-    font-size: 1.875rem;
+    font-size: var(--headerFont);
   }
   
   .header p {
     color: var(--red);
+    font-size: var(--fontPadrao);
   }
   
   .contextForm {

@@ -12,6 +12,15 @@
   gap: 1.563rem;
 }
 
+#includeDate{
+  width: 50%;
+}
+
+#updateDate {
+  width: 200%;
+}
+
 .footer input {
   background-color: var( --light-gray);
+  width: 80%;
 }

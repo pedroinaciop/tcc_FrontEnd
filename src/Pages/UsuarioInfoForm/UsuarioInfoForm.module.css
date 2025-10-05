@@ -19,25 +19,21 @@
   gap: 0.25rem;
 }
 
-#dataRegistroCampo, #dataNascimentoCampo, #idadeCampo, #alturaCampo, 
-#sexoBiologicoCampo, #doencasPreExistentesCampo, #alergiasCampo, #intoleranciasCampo, #nivelAtividadeFisicaCampo,
-#nivelAtividadeFisicaCampo, #pesoAtualCampo, #pesoDesejadoCampo, #objetivoCampo,#medidaCinturaCampo, #medidaAntebracoDireitoCampo {
-  width: 22%;
+#dataNascimentoCampo, #idadeCampo, #sexoBiologicoCampo,
+#doencasPreExistentesCampo, #alergiasCampo, #intoleranciasCampo,
+#nivelAtividadeFisicaCampo {
+  width: 31%;
+  font-size: var(--fontPadrao);
 }
 
-#medidaQuadrilCampo, #medidaToraxCampo, #medidaBracoDireitoCampo, #medidaBracoEsquerdoCampo {
-  width: 15.5%;
+#objetivoCampo {
+  width: 65.5%;
 }
-
-#medidaAntebracoEsquerdoCampo, #medidaCoxaDireitaCampo, #medidaCoxaEsquerdaCampo,
-#medidaPanturrilhaDireitaCampo, #medidaPanturrilhaEsquerdaCampo {
-  width: 11%;
- }
 
 .errorMessage {
   height: 0rem;
   color: var(--red);
-  font-size: 0.75rem;
+  font-size: var(--fontPadrao);
   position: relative;
   top: 0.125rem;
 }

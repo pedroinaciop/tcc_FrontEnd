@@ -28,32 +28,7 @@ function InputField({
     return (
         <div className={styled.formGroup} id={idDiv}>
             <label htmlFor={idInput}>{label}</label>
-
-            {type === "numberformat" ? (
-                <Controller
-                    name={idInput}
-                    control={control}
-                    render={({ field }) => (
-                        <NumericFormat
-                            {...field}
-                            id={idInput}
-                            thousandSeparator="."
-                            decimalSeparator=","
-                            decimalScale={2}
-                            fixedDecimalScale={false}
-                            allowNegative={false}
-                            className={`${className} ${error ? styled.inputError : ''}`}
-                            placeholder={placeholder}
-                            autoFocus={autoFocus}
-                            {...rest}
-                            onValueChange={(values) => {
-                                const { floatValue } = values;
-                                field.onChange(floatValue ?? "");
-                            }}
-                        />
-                    )}
-                />
-            ) : (
+            
                 <input
                     min={min}
                     max={max}
@@ -69,7 +44,7 @@ function InputField({
                     {...(register ? register(idInput, { validation, valueAsNumber }) : {})}
                     {...rest}
                 />
-            )}
+            
 
             {error && <span className={styled.errorMessage}>{error.message}</span>}
         </div>

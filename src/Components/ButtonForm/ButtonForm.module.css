@@ -1,4 +1,5 @@
 .btnRegister {
+    width: 200px;
     margin: 0rem 1.50rem 0rem 0rem;
     padding: 1rem;
     border: none;
@@ -20,6 +21,34 @@
   }
   
   .btnRegister:active {
+    outline: none;
+    background-color: var(--mainColor);
+  }
+
+  .btnLimpar {
+    width: 200px;
+    margin: 0rem 1.50rem 0rem 0rem;
+    padding: 1rem;
+    border: 1px solid var(--mainColor);
+    font-weight: bold;
+    border-radius: 0.5rem;
+    background-color: var(--white);
+    color: var(--mainColor);
+    font-size: var(--fontPadrao);
+    cursor: pointer;
+  }
+
+  .btnLimpar:hover {
+    border: 1px solid var(--activeButton);
+    color: var(--activeButton);
+  }
+  
+  .btnLimpar:focus {
+    outline: none;
+    background-color: var(--activeButton);
+  }
+  
+  .btnLimpar:active {
     outline: none;
     background-color: var(--mainColor);
   }

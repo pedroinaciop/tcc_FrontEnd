@@ -41,7 +41,7 @@
 }
 
 .subtitle {
-  font-size: 1rem;
+  font-size: var(--fontPadrao);
   margin-bottom: 10px;
   color: var(--textColor);
 }
@@ -51,7 +51,7 @@
 }
 
 .registerMessage {
-  font-size: 0.9rem;
+  font-size: var(--fontPadrao);
   color: var(--textColor);
 }
 
@@ -64,13 +64,13 @@
   color: var(--activeButton);
 }
 
-
 .submitButton {
   height: 2.7rem;
   width: 18.75rem;
 
   margin-top: 10px;
   border: none;
+  font-size: var(--fontPadrao);
   font-weight: bold;
   border-radius: 0.3rem;
   cursor: pointer;

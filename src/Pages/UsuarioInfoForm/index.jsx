@@ -210,6 +210,7 @@ const UsuarioInfoForm = () => {
                                 control={control}
                                 render={({ field, fieldState }) => (
                                     <Select
+                                        size='large'
                                         showSearch
                                         id="sexoBiologico"
                                         optionFilterProp="label"
@@ -237,6 +238,7 @@ const UsuarioInfoForm = () => {
                                 control={control}
                                 render={({ field, fieldState }) => (
                                     <Select
+                                        size='large'
                                         {...field}
                                         mode="multiple"
                                         id="doencasPreExistentes"
@@ -260,6 +262,7 @@ const UsuarioInfoForm = () => {
                                 control={control}
                                 render={({ field, fieldState }) => (
                                     <Select
+                                        size='large'
                                         {...field}
                                         mode="multiple"
                                         id="alergias"
@@ -283,6 +286,7 @@ const UsuarioInfoForm = () => {
                                 control={control}
                                 render={({ field, fieldState }) => (
                                     <Select
+                                        size='large'
                                         {...field}
                                         mode="multiple"
                                         id="intolerancias"
@@ -308,6 +312,7 @@ const UsuarioInfoForm = () => {
                                 control={control}
                                 render={({ field, fieldState }) => (
                                     <Select
+                                        size='large'
                                         showSearch
                                         id="nivelAtividadeFisica"
                                         optionFilterProp="label"

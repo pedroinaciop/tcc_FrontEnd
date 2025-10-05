@@ -36,8 +36,9 @@ const LoginUser = () => {
             })
             .then(response => {
                 navigate("/");
-                sessionStorage.setItem("user", response.data.user)
-                sessionStorage.setItem("token", response.data.token)
+                sessionStorage.setItem("user", response.data.user);
+                sessionStorage.setItem("token", response.data.token);
+                sessionStorage.setItem("usuario_id", response.data.id_usuario);
 
                 enqueueSnackbar("Login realizado com sucesso!", { variant: "success", anchorOrigin : { vertical: "bottom", horizontal: "right" } });
             })

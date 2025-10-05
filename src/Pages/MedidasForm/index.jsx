@@ -5,7 +5,6 @@ import HeaderForm from '../../Components/HeaderForm';
 import FooterForm from '../../Components/FooterForm';
 import InputField from '../../Components/InputField';
 import styled from './MedidasForm.module.css';
-import { Controller } from "react-hook-form";
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSnackbar } from 'notistack';
@@ -13,6 +12,8 @@ import api from '../../services/api';
 import { z } from 'zod';
 
 const MedidasForm = () => {
+            const usuario_id = sessionStorage.getItem("usuario_id");
+               console.log(usuario_id);
     const { id } = useParams();
     const updateDate = new Date();
     const navigate = useNavigate();
@@ -22,9 +23,11 @@ const MedidasForm = () => {
     const createMedidasFormSchema = z.object({
         dataRegistro: z.coerce.date().default(new Date()),
 
+        altura: z.number({ invalid_type_error: "Altura é obrigatória" })
+            .min(0, "Altura não pode ser negativa"),
+
         pesoAtual: z.number()
-            .min(0, "O peso não pode ser negativo")
-            .optional(),
+            .min(0, "O peso não pode ser negativo"),
 
         pesoDesejado: z.number()
             .min(0, "O peso desejado não pode ser negativo")
@@ -48,13 +51,6 @@ const MedidasForm = () => {
             .min(0, "A medida do braço não pode ser negativa")
             .optional(),
 
-        medidaAntebracoDireito: z.number()
-            .min(0, "A medida do antebraço não pode ser negativa")
-            .optional(),
-        medidaAntebracoEsquerdo: z.number()
-            .min(0, "A medida do antebraço não pode ser negativa")
-            .optional(),
-
         medidaCoxaDireita: z.number()
             .min(0, "A medida da coxa não pode ser negativa")
             .optional(),
@@ -65,11 +61,11 @@ const MedidasForm = () => {
         medidaPanturrilhaDireita: z.number()
             .min(0, "A medida da panturrilha não pode ser negativa")
             .optional(),
+
         medidaPanturrilhaEsquerda: z.number()
             .min(0, "A medida da panturrilha não pode ser negativa")
             .optional(),
 
-        altura: z.string(),
     });
 
     const { control, register, handleSubmit, formState: { errors }, watch, reset } = useForm({
@@ -82,8 +78,9 @@ const MedidasForm = () => {
         }
     };
 
-    const createMedidas = (data) => {
-        console.log(data);
+    const createMedida = (data) => {
+        const usuario_id = sessionStorage.getItem("usuario_id");
+        console.log(usuario_id);
         api.post('cadastros/registro/saude/novo', {
             dataRegistro: formattedFieldDateDefault(data.dataRegistro),
             pesoAtual: data.pesoAtual,
@@ -93,13 +90,12 @@ const MedidasForm = () => {
             medidaTorax: data.medidaTorax,
             medidaBracoDireito: data.medidaBracoDireito,
             medidaBracoEsquerdo: data.medidaBracoEsquerdo,
-            medidaAntebracoDireito: data.medidaAntebracoDireito,
-            medidaAntebracoEsquerdo: data.medidaAntebracoEsquerdo,
             medidaCoxaDireita: data.medidaCoxaDireita,
             medidaCoxaEsquerda: data.medidaCoxaEsquerda,
             medidaPanturrilhaDireita: data.medidaPanturrilhaDireita,
             medidaPanturrilhaEsquerda: data.medidaPanturrilhaEsquerda,
             altura: data.altura,
+            usuario_id: usuario_id,
         }, {
             headers: {
                 'Content-Type': 'application/json'
@@ -140,8 +136,6 @@ const MedidasForm = () => {
                         medidaTorax: medidas.medidaTorax,
                         medidaBracoDireito: medidas.medidaBracoDireito,
                         medidaBracoEsquerdo: medidas.medidaBracoEsquerdo,
-                        medidaAntebracoDireito: medidas.medidaAntebracoDireito,
-                        medidaAntebracoEsquerdo: medidas.medidaAntebracoEsquerdo,
                         medidaCoxaDireita: medidas.medidaCoxaDireita,
                         medidaCoxaEsquerda: medidas.medidaCoxaEsquerda,
                         medidaPanturrilhaDireita: medidas.medidaPanturrilhaDireita,
@@ -163,7 +157,7 @@ const MedidasForm = () => {
     return (
         <section className={styled.appContainer}>
             <HeaderForm title={"Medidas"} />
-            <form onSubmit={handleSubmit(createMedidas)} onKeyDown={handleKeyDown} autoComplete="off">
+            <form onSubmit={handleSubmit(createMedida)} onKeyDown={handleKeyDown} autoComplete="off">
                 <section className={styled.contextForm}>
                     <div className={styled.row}>
                         <InputField
@@ -181,10 +175,9 @@ const MedidasForm = () => {
                             idInput="altura"
                             idDiv={styled.alturaCampo}
                             label="Altura"
-                            type="numberformat"
-                            controller={Controller}
-                            control={control}
+                            type="number"
                             valueAsNumber={true}
+                            register={register}
                             error={errors.altura}
                         />
 
@@ -277,30 +270,6 @@ const MedidasForm = () => {
 
                     <div className={styled.row}>
                         <InputField
-                            idInput="medidaAntebracoDireito"
-                            idDiv={styled.medidaAntebracoDireitoCampo}
-                            label="Medida do Antebraço Dir."
-                            type="number"
-                            valueAsNumber={true}
-                            defaultValue={0}
-                            min={0}
-                            register={register}
-                            error={errors.medidaAntebracoDireito}
-                        />
-                        
-                        <InputField
-                            idInput="medidaAntebracoEsquerdo"
-                            idDiv={styled.medidaAntebracoEsquerdoCampo}
-                            label="Medida do Antebraço Esq."
-                            type="number"
-                            valueAsNumber={true}
-                            defaultValue={0}
-                            min={0}
-                            register={register}
-                            error={errors.medidaAntebracoEsquerdo}
-                        />
-
-                        <InputField
                             idInput="medidaCoxaDireita"
                             idDiv={styled.medidaCoxaCampo}
                             label="Medida da Coxa Dir."
@@ -349,7 +318,7 @@ const MedidasForm = () => {
                         />
                     </div>
                 </section>
-                <FooterForm title={ id ? "Editar" : "Cadastrar"} updateDateField={dataAlteracaoField} />
+                <FooterForm title={ id ? "Editar" : "Cadastrar"} updateDateField={dataAlteracaoField} dataInclusaoField={dataInclusaoField}/>
             </form>
         </section>
     );

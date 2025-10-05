@@ -1,4 +1,6 @@
-import { FileOutlined, UserOutlined, HomeOutlined, SolutionOutlined, PlusOutlined, LogoutOutlined } from '@ant-design/icons';
+import { FileOutlined, UserOutlined, HomeOutlined, SolutionOutlined, PlusOutlined, LogoutOutlined } from '@ant-design/icons'
+import RestaurantIcon from '@mui/icons-material/Restaurant';
+import StraightenIcon from '@mui/icons-material/Straighten';
 import { Layout, Menu, Avatar, Space, Button } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
@@ -19,8 +21,8 @@ function getItem(label, key, icon, children, pathname) {
 const items = [
   getItem('Home', '1', <HomeOutlined />, null, '/home'),
   getItem('Minhas Informações', '2', <SolutionOutlined />, null, '/info/usuario/'),
-  getItem('Registrar Medidas', '3', <PlusOutlined />, null, '/medidas'),
-  getItem('Registrar Refeições', '4', <PlusOutlined />, null, '/refeicao'),
+  getItem('Registrar Medidas', '3', <StraightenIcon />, null, '/medidas'),
+  getItem('Registrar Refeições', '4', <RestaurantIcon />, null, '/refeicao'),
  
   getItem('Relatórios', '5', <FileOutlined />, [
     getItem('Refeições por período', '6', null, null, '/cadastros/entrada'),
@@ -98,10 +100,12 @@ const PainelMenu = () => {
           )
         }
       </Space>
-      <Menu theme="dark" 
-        defaultSelectedKeys={['1']} 
+      <Menu 
+        className={styled.menuItems}
+        theme="dark" 
         mode="inline" 
-        items={mapItems(items)} />
+        defaultSelectedKeys={['1']} 
+        items={mapItems(items)}/>
     </Sider>
   );
 };

@@ -41,27 +41,6 @@ const RefeicaoForm = () => {
         api.post('cadastros/info/usuarios/novo', {
             dataRegistro: formattedDate,
             dataNascimento: formattedFieldDate(data.dataNascimento),
-            idade: data.idade,
-            sexoBiologico: data.sexoBiologico,
-            nivelAtividadeFisica: data.nivelAtividadeFisica,
-            objetivo: data.objetivo,
-            alergias: data.alergias.toString() || 'Sem alergias',
-            intolerancias: data.intolerancias.toString() || 'Sem intolerâncias',
-            doencasPreExistentes: data.doencasPreExistentes.toString() || 'Sem doenças pré-existentes',
-            pesoAtual: data.pesoAtual,
-            pesoDesejado: data.pesoDesejado,
-            medidaCintura: data.medidaCintura,
-            medidaQuadril: data.medidaQuadril,
-            medidaTorax: data.medidaTorax,
-            medidaBracoDireito: data.medidaBracoDireito,
-            medidaBracoEsquerdo: data.medidaBracoEsquerdo,
-            medidaAntebracoDireito: data.medidaAntebracoDireito,
-            medidaAntebracoEsquerdo: data.medidaAntebracoEsquerdo,
-            medidaCoxaDireita: data.medidaCoxaDireita,
-            medidaCoxaEsquerda: data.medidaCoxaEsquerda,
-            medidaPanturrilhaDireita: data.medidaPanturrilhaDireita,
-            medidaPanturrilhaEsquerda: data.medidaPanturrilhaEsquerda,
-            altura: data.altura,
         }, {
             headers: {
                 'Content-Type': 'application/json'
