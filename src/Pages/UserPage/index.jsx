@@ -132,7 +132,7 @@ const UserPage = () => {
                     rowKey="user_id"
                     size="large"
                     search={false}
-                    bordered={false}
+                    bordered={true}
                     columns={columns}
                     dataSource={filterData(users, keywords)}
                     params={{ keywords }}

@@ -26,6 +26,22 @@ input[type] {
   font-size: var(--fontPadrao);
 }
 
+:global(.ant-table-cell) {
+  font-size: var(--fontPadrao);
+}
+
+:global(.ant-pagination) {
+  font-size: var(--fontPadrao);
+}
+
+:global(.ant-btn) {
+  font-size: var(--fontPadrao);
+}
+
+:global(.ant-select-item-option-content) {
+  font-size: var(--fontPadrao);
+}
+
 .App {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   user-select: nonre;

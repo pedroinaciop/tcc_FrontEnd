@@ -10,13 +10,13 @@ import api from '../../services/api';
 import * as XLSX from 'xlsx';
 
 const MedidasPage = () => {
-     const navigate = useNavigate();
+    const usuario_id = sessionStorage.getItem("usuario_id");
+    const navigate = useNavigate();
     const [keywords, setKeywords] = useState('');
     const [medidas, setMedidas] = useState([]);
     const { enqueueSnackbar } = useSnackbar();
 
     const columns = [
-        { title: 'ID', dataIndex: 'id', width: 50},
         { title: 'DATA DE REGISTRO', dataIndex: 'dataRegistro', width: 200},
         { title: 'PESO ATUAL', dataIndex: 'pesoAtual'},
         { title: 'PESO DESEJADO', dataIndex: 'pesoDesejado'},
@@ -34,7 +34,7 @@ const MedidasPage = () => {
             title: 'DELETAR',
             width: 140,
             render: (_, row) => (
-               <Button key="deletar" href={`/registro/saude/${row.id}`} onClick={(e) => {e.preventDefault(confirmDelete(row.id))}} icon={<DeleteOutlined />}>
+               <Button key="deletar" href={`/medida/${row.id}`} onClick={(e) => {e.preventDefault(confirmDelete(row.id))}} icon={<DeleteOutlined />}>
                     Deletar
                 </Button>
             ),
@@ -53,7 +53,7 @@ const MedidasPage = () => {
     };
 
     const deleteUser = (id) => {
-        api.delete(`registro/saude/${id}`)
+        api.delete(`medida/${id}`)
             .then(() => {
                 window.location.reload();
                 enqueueSnackbar("Deletado com sucesso!", { 
@@ -64,7 +64,7 @@ const MedidasPage = () => {
     };
 
     useEffect(() => {
-        api.get('/registro/saude', {
+        api.get(`/medidas/${usuario_id}`, {
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -130,12 +130,12 @@ const MedidasPage = () => {
                     rowKey="id"
                     size="large"
                     search={false}
-                    bordered={false}
+                    bordered={true}
                     columns={columns}
                     dataSource={filterData(medidas, keywords)}
                     params={{ keywords }}
                     pagination={{
-                        pageSize: 4,
+                        pageSize: 5,
                         showQuickJumper: true,
                     }}
                 />

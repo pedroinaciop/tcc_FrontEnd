@@ -3,6 +3,7 @@ import { Controller } from "react-hook-form";
 import styled from './InputField.module.css';
 
 function InputField({
+    obrigatorio,
     idInput,
     idDiv,
     label,
@@ -27,8 +28,7 @@ function InputField({
 }) {
     return (
         <div className={styled.formGroup} id={idDiv}>
-            <label htmlFor={idInput}>{label}</label>
-            
+            <label htmlFor={idInput}>{label}{obrigatorio===true ? <span className={styled.obrigatorio}>*</span> : null}</label>
                 <input
                     min={min}
                     max={max}

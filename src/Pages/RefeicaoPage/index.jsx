@@ -10,14 +10,13 @@ import api from '../../services/api'
 import * as XLSX from 'xlsx';
 
 const RefeicaoPage = () => {
-      const [loading, setLoading] = useState(false);
     const { id } = useParams();
+    const { enqueueSnackbar } = useSnackbar();
     const [keywords, setKeywords] = useState('');
     const [userInfo, setUserInfo] = useState([]);
-    const { enqueueSnackbar } = useSnackbar();
+    const [loading, setLoading] = useState(false);
 
     const columns = [
-        { title: 'ID', dataIndex: 'id', width: 50},
         { title: 'DATA DE REGISTRO', dataIndex: 'dataRegistro', width: 200},
         { title: 'PESO ATUAL', dataIndex: 'pesoAtual'},
         { title: 'PESO DESEJADO', dataIndex: 'pesoDesejado'},
@@ -132,12 +131,12 @@ const RefeicaoPage = () => {
                     rowKey="id"
                     size="large"
                     search={false}
-                    bordered={false}
+                    bordered={true}
                     columns={columns}
                     dataSource={filterData(userInfo, keywords)}
                     params={{ keywords }}
                     pagination={{
-                        pageSize: 4,
+                        pageSize: 5,
                         showQuickJumper: true,
                     }}
                 />
