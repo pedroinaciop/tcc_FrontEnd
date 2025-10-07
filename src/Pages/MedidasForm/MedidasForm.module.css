@@ -7,6 +7,27 @@
   padding: 1.25rem 1.25rem 0.125rem 1.25rem;
 }
 
+.contextForm {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.campos {
+  width: 65%;
+}
+
+.secaoImagem {
+  width: 35%;
+  display: flex;
+  justify-content: center; 
+}
+
+.imagem {
+  width: 400px;
+  height: 600px;
+}
+
 .row {
   display: flex;
   justify-content: space-between;
@@ -19,17 +40,24 @@
   gap: 0.25rem;
 }
 
-#dataRegistroCampo, #pesoAtualCampo, #pesoDesejadoCampo, #medidaCinturaCampo {
+#dataRegistroCampo, #pesoAtualCampo, #pesoDesejadoCampo {
   width: 22%;
 }
 
-#medidaQuadrilCampo, #medidaToraxCampo, #medidaBracoDireitoCampo, #medidaBracoEsquerdoCampo {
-  width: 15.5%;
+#medidaToraxCampo, #medidaCinturaCampo , #medidaQuadrilCampo {
+  width: 30%;
 }
 
-#medidaCoxaDireitaCampo, #medidaCoxaEsquerdaCampo,
-#medidaPanturrilhaDireitaCampo, #medidaPanturrilhaEsquerdaCampo {
-  width: 11%;
+#medidaBracoDireitoCampo, #medidaBracoEsquerdoCampo {
+  width: 47%;
+}
+
+#medidaCoxaDireitaCampo, #medidaCoxaEsquerdaCampo {
+  width: 47%;
+}
+
+ #medidaPanturrilhaDireitaCampo, #medidaPanturrilhaEsquerdaCampo {
+  width: 47%;
  }
 
 .errorMessage {

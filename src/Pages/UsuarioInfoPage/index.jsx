@@ -10,13 +10,13 @@ import api from '../../services/api';
 import * as XLSX from 'xlsx';
 
 const UsuarioInfoPage = () => {
-     const navigate = useNavigate();
+    const navigate = useNavigate();
+    const { enqueueSnackbar } = useSnackbar();
     const [keywords, setKeywords] = useState('');
     const [userInfo, setUserInfo] = useState([]);
-    const { enqueueSnackbar } = useSnackbar();
+    const usuario_id = sessionStorage.getItem("usuario_id");
 
     const columns = [
-
         { title: 'DATA DE REGISTRO', dataIndex: 'dataRegistro', width: 200},
         { title: 'IDADE', dataIndex: 'idade'},
         { title: 'GÊNERO', dataIndex: 'sexoBiologico'},
@@ -64,13 +64,14 @@ const UsuarioInfoPage = () => {
     };
 
     useEffect(() => {
-        api.get('/info/usuarios', {
+        api.get(`info/usuarios/${usuario_id}`, {
             headers: {
                 'Content-Type': 'application/json'
             }
         })
             .then(function (resposta) {
-                setUserInfo(resposta.data);
+                 const data = Array.isArray(resposta.data) ? resposta.data : [resposta.data];
+                setUserInfo(data);
             })
             .catch(function (error) {
                 console.error("Erro:", error);
@@ -95,8 +96,7 @@ const UsuarioInfoPage = () => {
         if (!keywords) return data;
     
         return data.filter((item) =>
-            item.dataRegistro?.toLowerCase().includes(keywords.toLowerCase()) ||
-            item.pesoAtual?.toLowerCase().includes(keywords.toLowerCase()) 
+            item.dataRegistro?.toLowerCase().includes(keywords.toLowerCase()) 
         );
     };        
 
@@ -130,12 +130,12 @@ const UsuarioInfoPage = () => {
                     rowKey="id"
                     size="large"
                     search={false}
-                    bordered={false}
+                    bordered={true}
                     columns={columns}
                     dataSource={filterData(userInfo, keywords)}
                     params={{ keywords }}
                     pagination={{
-                        pageSize: 4,
+                        pageSize: 5,
                         showQuickJumper: true,
                     }}
                 />

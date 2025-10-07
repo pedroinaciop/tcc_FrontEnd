@@ -17,7 +17,7 @@ const UserForm = () => {
     const navigate = useNavigate();
 
     const createUserFormSchema = z.object({
-        fullName: z.string()
+        nomeCompleto: z.string()
             .nonempty("O nome é obrigatório")
             .min(3, "O nome precisa de no mínimo 3 caracteres")
             .transform(name => {
@@ -31,18 +31,18 @@ const UserForm = () => {
             .nonempty("O e-mail é obrigatório")
             .email('Formato de e-mail inválido'),
 
-        password: z.string()
+        senha: z.string()
             .nonempty("A senha é obrigatória")
             .min(6, "A senha precisa de no mínimo 6 caracteres")
             .max(64, "A senha não pode ultrapassar 64 caracteres"),
 
-        confirmPassword: z.string()
+        confirmarSenha: z.string()
             .nonempty("A confirmação da senha é obrigatória")
             .min(6, "A senha precisa de no mínimo 6 caracteres")
             .max(64, "A senha não pode ultrapassar 64 caracteres"),
-    }).refine(data => data.password === data.confirmPassword, {
+    }).refine(data => data.senha === data.confirmarSenha, {
         message: "As senhas não conferem",
-        path: ["confirmPassword"]
+        path: ["confirmarSenha"]
     });
 
     const { register, handleSubmit, formState: { errors } } = useForm({
@@ -57,9 +57,9 @@ const UserForm = () => {
 
     const createUser = (data) => {
         api.post('cadastros/usuarios/novo', {
-            fullName: data.fullName,
+            nomeCompletome: data.nomeCompleto,
             email: data.email,
-            password: data.password,
+            senha: data.senha,
             updateDate: formattedDate,
             updateUser: "ADM",
         }, {
@@ -92,12 +92,12 @@ const UserForm = () => {
             <form onSubmit={handleSubmit(createUser)} onKeyDown={handleKeyDown} autoComplete="off">
                 <div className={styled.row}>
                     <InputField
-                        idInput="fullName"
+                        idInput="nomeCompleto"
                         idDiv={styled.fullNameField}
                         label="Nome Completo*"
                         type="text"
                         register={register}
-                        error={errors?.fullName}
+                        error={errors?.nomeCompleto}
                     />
                     <InputField
                         idInput="email"
@@ -111,20 +111,20 @@ const UserForm = () => {
 
                 <div className={styled.row}>
                     <InputPassword
-                        idInput="password"
+                        idInput="senha"
                         idDiv={styled.passwordField}
                         label="Senha*"
                         type="password"
                         register={register}
-                        error={errors?.password}
+                        error={errors?.senha}
                     />
                     <InputPassword
-                        idInput="confirmPassword"
+                        idInput="confirmarSenha"
                         idDiv={styled.confirmPasswordField}
                         label="Confirme a Senha*"
                         type="password"
                         register={register}
-                        error={errors?.confirmPassword}
+                        error={errors?.confirmarSenha}
                     />
                 </div>
                 <FooterForm />

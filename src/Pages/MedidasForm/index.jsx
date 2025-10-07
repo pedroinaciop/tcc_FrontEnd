@@ -1,4 +1,4 @@
-import { formattedFieldDateDefault, } from '../../utils/formatDate';
+import { formatDateToISO, formatDateToInvertedISO } from '../../utils/formatDate';
 import { useNavigate, useParams } from 'react-router-dom';
 import { zodResolver } from '@hookform/resolvers/zod';
 import HeaderForm from '../../Components/HeaderForm';
@@ -11,61 +11,54 @@ import { useSnackbar } from 'notistack';
 import api from '../../services/api';
 import { z } from 'zod';
 
+import medidas  from '../../assets/images/medidas_corpo.png'
+
 const MedidasForm = () => {
-            const usuario_id = sessionStorage.getItem("usuario_id");
-               console.log(usuario_id);
     const { id } = useParams();
     const updateDate = new Date();
     const navigate = useNavigate();
     const { enqueueSnackbar } = useSnackbar();
     const [loading, setLoading] = useState(false);
+    const usuario_id = sessionStorage.getItem("usuario_id");
 
     const createMedidasFormSchema = z.object({
         dataRegistro: z.coerce.date().default(new Date()),
 
-        altura: z.number({ invalid_type_error: "Altura é obrigatória" })
+        altura: z.number({ invalid_type_error: "Campo obrigatório" })
             .min(0, "Altura não pode ser negativa"),
 
-        pesoAtual: z.number()
+        pesoAtual: z.number({ invalid_type_error: "Campo obrigatório" })
             .min(0, "O peso não pode ser negativo"),
 
-        pesoDesejado: z.number()
-            .min(0, "O peso desejado não pode ser negativo")
-            .optional(),
+        pesoDesejado: z.number({ invalid_type_error: "Campo obrigatório" })
+            .min(0, "O peso desejado não pode ser negativo"),
 
-        medidaCintura: z.number()
-            .min(0, "A medida da cintura não pode ser negativa")
-            .optional(),
+        medidaCintura: z.number({ invalid_type_error: "Campo obrigatório" })
+            .min(0, "A medida da cintura não pode ser negativa"),
 
-        medidaQuadril: z.number()
-            .min(0, "A medida do quadril não pode ser negativa")
-            .optional(),
+        medidaQuadril: z.number({ invalid_type_error: "Campo obrigatório" })
+            .min(0, "A medida do quadril não pode ser negativa"),
 
-        medidaTorax: z.number()
+        medidaTorax: z.number({ invalid_type_error: "Campo obrigatório" })
             .min(0, "A medida do torax não pode ser negativa"), 
 
-        medidaBracoDireito: z.number()
-            .min(0, "A medida do braço não pode ser negativa")
-            .optional(),
-        medidaBracoEsquerdo: z.number()
-            .min(0, "A medida do braço não pode ser negativa")
-            .optional(),
+        medidaBracoDireito: z.number({ invalid_type_error: "Campo obrigatório" })
+            .min(0, "A medida do braço não pode ser negativa"),
 
-        medidaCoxaDireita: z.number()
-            .min(0, "A medida da coxa não pode ser negativa")
-            .optional(),
-        medidaCoxaEsquerda: z.number()
-            .min(0, "A medida da coxa não pode ser negativa")
-            .optional(),
+        medidaBracoEsquerdo: z.number({ invalid_type_error: "Campo obrigatório" })
+            .min(0, "A medida do braço não pode ser negativa"),
 
-        medidaPanturrilhaDireita: z.number()
-            .min(0, "A medida da panturrilha não pode ser negativa")
-            .optional(),
+        medidaCoxaDireita: z.number({ invalid_type_error: "Campo obrigatório" })
+            .min(0, "A medida da coxa não pode ser negativa"),
 
-        medidaPanturrilhaEsquerda: z.number()
-            .min(0, "A medida da panturrilha não pode ser negativa")
-            .optional(),
+        medidaCoxaEsquerda: z.number({ invalid_type_error: "Campo obrigatório" })
+            .min(0, "A medida da coxa não pode ser negativa"),
 
+        medidaPanturrilhaDireita: z.number({ invalid_type_error: "Campo obrigatório" })
+            .min(0, "A medida da panturrilha não pode ser negativa"),
+
+        medidaPanturrilhaEsquerda: z.number({ invalid_type_error: "Campo obrigatório" })
+            .min(0, "A medida da panturrilha não pode ser negativa"),
     });
 
     const { control, register, handleSubmit, formState: { errors }, watch, reset } = useForm({
@@ -79,10 +72,8 @@ const MedidasForm = () => {
     };
 
     const createMedida = (data) => {
-        const usuario_id = sessionStorage.getItem("usuario_id");
-        console.log(usuario_id);
-        api.post('cadastros/registro/saude/novo', {
-            dataRegistro: formattedFieldDateDefault(data.dataRegistro),
+        api.post('cadastros/medida/novo', {
+            dataRegistro: formatDateToISO(data.dataRegistro, 1),
             pesoAtual: data.pesoAtual,
             pesoDesejado: data.pesoDesejado,
             medidaCintura: data.medidaCintura,
@@ -95,7 +86,10 @@ const MedidasForm = () => {
             medidaPanturrilhaDireita: data.medidaPanturrilhaDireita,
             medidaPanturrilhaEsquerda: data.medidaPanturrilhaEsquerda,
             altura: data.altura,
-            usuario_id: usuario_id,
+            usuario: {
+                id: usuario_id
+            }
+
         }, {
             headers: {
                 'Content-Type': 'application/json'
@@ -123,12 +117,11 @@ const MedidasForm = () => {
     useEffect(() => {
         if (id) {
             setLoading(true);
-            api.get(`/registro/saude/${id}`)
+            api.get(`/medida/${id}`)
                 .then(response => {
                     const medidas = response.data;
-                    console.log(medidas);
                     reset({
-                        dataRegistro: medidas.dataRegistro,
+                        dataRegistro: formatDateToInvertedISO(medidas.dataRegistro, 1),
                         pesoAtual: medidas.pesoAtual,
                         pesoDesejado: medidas.pesoDesejado,
                         medidaCintura: medidas.medidaCintura,
@@ -158,166 +151,190 @@ const MedidasForm = () => {
         <section className={styled.appContainer}>
             <HeaderForm title={"Medidas"} />
             <form onSubmit={handleSubmit(createMedida)} onKeyDown={handleKeyDown} autoComplete="off">
-                <section className={styled.contextForm}>
-                    <div className={styled.row}>
-                        <InputField
-                            idInput="dataRegistro"
-                            autoFocus
-                            idDiv={styled.dataRegistroCampo}
-                            label="Data de Registro*"
-                            type="date"
-                            register={register}
-                            defaultValue={formattedFieldDateDefault(new Date())}
-                            error={errors.dataRegistro}
-                        />
+                <main className={styled.contextForm}>
+                    <section className={styled.campos}>
+                        <div className={styled.row}>
+                            <InputField
+                                idInput="dataRegistro"
+                                autoFocus
+                                idDiv={styled.dataRegistroCampo}
+                                label="Data de Registro"
+                                obrigatorio={true}
+                                type="date"
+                                register={register}
+                                defaultValue={formatDateToISO(new Date(), 0)}
+                                error={errors.dataRegistro}
+                            />
 
-                        <InputField
-                            idInput="altura"
-                            idDiv={styled.alturaCampo}
-                            label="Altura"
-                            type="number"
-                            valueAsNumber={true}
-                            register={register}
-                            error={errors.altura}
-                        />
+                            <InputField
+                                idInput="altura"
+                                idDiv={styled.alturaCampo}
+                                label="Altura (M, CM)"
+                                type="number"
+                                obrigatorio={true}
+                                valueAsNumber={true}
+                                min={0}
+                                step="0.01"
+                                register={register}
+                                error={errors.altura}
+                            />
 
-                        <InputField
-                            idInput="pesoAtual"
-                            idDiv={styled.pesoAtualCampo}
-                            label="Peso Atual*"
-                            type="number"
-                            valueAsNumber={true}
-                            defaultValue={0}
-                            min={0}
-                            register={register}
-                            error={errors.pesoAtual}
-                        />
+                            <InputField
+                                idInput="pesoAtual"
+                                idDiv={styled.pesoAtualCampo}
+                                label="Peso Atual (KG)"
+                                type="number"
+                                step="0.01"
+                                obrigatorio={true}
+                                valueAsNumber={true}
+                                min={0}
+                                register={register}
+                                error={errors.pesoAtual}
+                            />
 
-                        <InputField
-                            idInput="pesoDesejado"
-                            idDiv={styled.pesoDesejadoCampo}
-                            label="Peso Desejado*"
-                            type="number"
-                            valueAsNumber={true}
-                            defaultValue={0}
-                            min={0}
-                            register={register}
-                            error={errors.pesoDesejado}
-                        /> 
-                    </div>
+                            <InputField
+                                idInput="pesoDesejado"
+                                idDiv={styled.pesoDesejadoCampo}
+                                label="Peso Desejado (KG)"
+                                type="number"
+                                step="0.01"
+                                obrigatorio={true}
+                                valueAsNumber={true}
+                                min={0}
+                                register={register}
+                                error={errors.pesoDesejado}
+                            /> 
+                        </div>
 
-                    <div className={styled.row}>
-                        <InputField
-                            idInput="medidaCintura"
-                            idDiv={styled.medidaCinturaCampo}
-                            label="Medida da Cintura"
-                            type="number"
-                            valueAsNumber={true}
-                            defaultValue={0}
-                            min={0}
-                            register={register}
-                            error={errors.medidaCintura}
-                        />
+                        <div className={styled.row}>
+                            <InputField
+                                idInput="medidaTorax"
+                                idDiv={styled.medidaToraxCampo}
+                                label="Medida do Tórax (CM)"
+                                type="number"
+                                step="0.01"
+                                obrigatorio={true}
+                                valueAsNumber={true}
+                                min={0}
+                                register={register}
+                                error={errors.medidaTorax}
+                            />
 
-                        <InputField
-                            idInput="medidaQuadril"
-                            idDiv={styled.medidaQuadrilCampo}
-                            label="Medida do Quadril"
-                            type="number"
-                            valueAsNumber={true}
-                            defaultValue={0}
-                            min={0}
-                            register={register}
-                            error={errors.medidaQuadril}
-                        />
+                            <InputField
+                                idInput="medidaCintura"
+                                idDiv={styled.medidaCinturaCampo}
+                                label="Medida da Cintura (CM)"
+                                type="number"
+                                step="0.01"
+                                obrigatorio={true}
+                                valueAsNumber={true}
+                                min={0}
+                                register={register}
+                                error={errors.medidaCintura}
+                            />
 
-                        <InputField
-                            idInput="medidaTorax"
-                            idDiv={styled.medidaToraxCampo}
-                            label="Medida do Tórax"
-                            type="number"
-                            valueAsNumber={true}
-                            defaultValue={0}
-                            min={0}
-                            register={register}
-                            error={errors.medidaTorax}
-                        />
+                            <InputField
+                                idInput="medidaQuadril"
+                                idDiv={styled.medidaQuadrilCampo}
+                                label="Medida do Quadril (CM)"
+                                type="number"
+                                step="0.01"
+                                obrigatorio={true}
+                                valueAsNumber={true}
+                                min={0}
+                                register={register}
+                                error={errors.medidaQuadril}
+                            />
+                        </div>
 
-                        <InputField
-                            idInput="medidaBracoDireito"
-                            idDiv={styled.medidaBracoDireitoCampo}
-                            label="Medida do Braço Direito"
-                            type="number"
-                            valueAsNumber={true}
-                            defaultValue={0}
-                            min={0}
-                            register={register}
-                            error={errors.medidaBracoDireito}
-                        />
+                        <div className={styled.row}>
+                            <InputField
+                                idInput="medidaBracoDireito"
+                                idDiv={styled.medidaBracoDireitoCampo}
+                                label="Medida do Braço Direito (CM)"
+                                type="number"
+                                step="0.01"
+                                obrigatorio={true}
+                                valueAsNumber={true}
+                                min={0}
+                                register={register}
+                                error={errors.medidaBracoDireito}
+                            />
 
-                        <InputField
-                            idInput="medidaBracoEsquerdo"
-                            idDiv={styled.medidaBracoEsquerdoCampo}
-                            label="Medida do Braço Esquerdo"
-                            type="number"
-                            valueAsNumber={true}
-                            defaultValue={0}
-                            min={0}
-                            register={register}
-                            error={errors.medidaBracoEsquerdo}
-                        />
-                    </div>
+                            <InputField
+                                idInput="medidaBracoEsquerdo"
+                                idDiv={styled.medidaBracoEsquerdoCampo}
+                                label="Medida do Braço Esquerdo (CM)"
+                                type="number"
+                                step="0.01"
+                                obrigatorio={true}
+                                valueAsNumber={true}
+                                min={0}
+                                register={register}
+                                error={errors.medidaBracoEsquerdo}
+                            />
+                        </div>
 
-                    <div className={styled.row}>
-                        <InputField
-                            idInput="medidaCoxaDireita"
-                            idDiv={styled.medidaCoxaCampo}
-                            label="Medida da Coxa Dir."
-                            type="number"
-                            valueAsNumber={true}
-                            defaultValue={0}
-                            min={0}
-                            register={register}
-                            error={errors.medidaCoxaDireita}
-                        />
+                        <div className={styled.row}>
+                            <InputField
+                                idInput="medidaCoxaDireita"
+                                idDiv={styled.medidaCoxaDireitaCampo}
+                                label="Medida da Coxa Dir. (CM)"
+                                type="number"
+                                step="0.01"
+                                obrigatorio={true}
+                                valueAsNumber={true}
+                                min={0}
+                                register={register}
+                                error={errors.medidaCoxaDireita}
+                            />
 
-                        <InputField
-                            idInput="medidaCoxaEsquerda"
-                            idDiv={styled.medidaCoxaCampo}
-                            label="Medida da Coxa Esq."
-                            type="number"
-                            valueAsNumber={true}
-                            defaultValue={0}
-                            min={0}
-                            register={register}
-                            error={errors.medidaCoxaEsquerda}
-                        />
+                            <InputField
+                                idInput="medidaCoxaEsquerda"
+                                idDiv={styled.medidaCoxaEsquerdaCampo}
+                                label="Medida da Coxa Esq. (CM)"
+                                type="number"
+                                step="0.01"
+                                obrigatorio={true}
+                                valueAsNumber={true}
+                                min={0}
+                                register={register}
+                                error={errors.medidaCoxaEsquerda}
+                            />
+                        </div>
 
-                        <InputField
-                            idInput="medidaPanturrilhaDireita"
-                            idDiv={styled.medidaPanturrilhaDireitaCampo}
-                            label="Medida da Panturrilha Dir."
-                            type="number"
-                            valueAsNumber={true}
-                            defaultValue={0}
-                            min={0}
-                            register={register}
-                            error={errors.medidaPanturrilhaDireita}
-                        />
+                        <div className={styled.row}>
+                            <InputField
+                                idInput="medidaPanturrilhaDireita"
+                                idDiv={styled.medidaPanturrilhaDireitaCampo}
+                                label="Medida da Panturrilha Dir. (CM)"
+                                type="number"
+                                step="0.01"
+                                obrigatorio={true}
+                                valueAsNumber={true}
+                                min={0}
+                                register={register}
+                                error={errors.medidaPanturrilhaDireita}
+                            />
 
-                        <InputField
-                            idInput="medidaPanturrilhaEsquerda"
-                            idDiv={styled.medidaPanturrilhaEsquerdaCampo}
-                            label="Medida da Panturrilha Esq."
-                            type="number"
-                            valueAsNumber={true}
-                            defaultValue={0}
-                            min={0}
-                            register={register}
-                            error={errors.medidaPanturrilhaEsquerda}
-                        />
-                    </div>
-                </section>
+                            <InputField
+                                idInput="medidaPanturrilhaEsquerda"
+                                idDiv={styled.medidaPanturrilhaEsquerdaCampo}
+                                label="Medida da Panturrilha Esq. (CM)"
+                                type="number"
+                                step="0.01"
+                                obrigatorio={true}
+                                valueAsNumber={true}
+                                min={0}
+                                register={register}
+                                error={errors.medidaPanturrilhaEsquerda}
+                            />
+                        </div>
+                    </section>
+                    <figure className={styled.secaoImagem}>
+                       <img className={styled.imagem} src={medidas} alt="Imagem de referência das medidas do corpo humano" /> 
+                    </figure> 
+                </main>
                 <FooterForm title={ id ? "Editar" : "Cadastrar"} updateDateField={dataAlteracaoField} dataInclusaoField={dataInclusaoField}/>
             </form>
         </section>

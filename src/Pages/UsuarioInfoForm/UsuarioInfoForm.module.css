@@ -30,6 +30,10 @@
   width: 65.5%;
 }
 
+.obrigatorio {
+  color: var(--red);
+}
+
 .errorMessage {
   height: 0rem;
   color: var(--red);

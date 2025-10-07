@@ -43,12 +43,8 @@
     color: var(--activeButton);
   }
   
-  .btnLimpar:focus {
-    outline: none;
-    background-color: var(--activeButton);
-  }
-  
   .btnLimpar:active {
-    outline: none;
-    background-color: var(--mainColor);
+    border: 1px solid var(--activeButton);
+    background-color: var(--activeButton);
+    color: var(--white);
   }

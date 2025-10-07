@@ -1,4 +1,4 @@
-import { formattedFieldDate, formattedFieldDateDefault } from '../../utils/formatDate';
+import { formatDateToBrazilian, formatDateToISO } from '../../utils/formatDate';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import HeaderForm from '../../Components/HeaderForm';
@@ -40,7 +40,7 @@ const RefeicaoForm = () => {
         console.log(data);
         api.post('cadastros/info/usuarios/novo', {
             dataRegistro: formattedDate,
-            dataNascimento: formattedFieldDate(data.dataNascimento),
+            dataNascimento: formatDateToBrazilian(data.dataNascimento),
         }, {
             headers: {
                 'Content-Type': 'application/json'
@@ -87,7 +87,7 @@ const RefeicaoForm = () => {
                             label="Data de Registro*"
                             type="date"
                             register={register}
-                            defaultValue={formattedFieldDateDefault(new Date())}
+                            defaultValue={formatDateToISO(new Date())}
                             error={errors.dataRegistro}
                         />
 

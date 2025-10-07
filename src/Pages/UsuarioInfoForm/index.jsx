@@ -1,4 +1,4 @@
-import { formattedFieldDate, formattedFieldDateDefault } from '../../utils/formatDate';
+import { formatDateToISO, formatDateToInvertedISO, formatDateToBrazilian } from '../../utils/formatDate';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import HeaderForm from '../../Components/HeaderForm';
@@ -13,6 +13,7 @@ import { z } from 'zod';
 import { useState, useEffect } from 'react';
 
 const UsuarioInfoForm = () => {
+    const usuario_id = sessionStorage.getItem("usuario_id");
     const { id } = useParams();
     const updateDate = new Date();
     const navigate = useNavigate();
@@ -22,19 +23,21 @@ const UsuarioInfoForm = () => {
     const formattedDateTime = `${updateDate.toLocaleDateString('pt-BR')} ${updateDate.toLocaleTimeString('pt-BR')}`;
 
     const createUserFormSchema = z.object({
-        dataNascimento: z.string(),
+        dataNascimento: z.string()
+            .nonempty(`Campo obrigatório (formato: DD/MM/AAAA)`),
 
         idade: z.string(),
 
         sexoBiologico: z.enum(['MASCULINO', 'FEMININO', 'NAO_ESPECIFICAR'], {
-            errorMap: () => ({ message: "O sexo é obrigatório" })
+            errorMap: () => ({ message: "Campo obrigatório" })
         }),  
         
         objetivo: z.string()
-            .max(255, "O objetivo não pode ultrapassar 255 caracteres"),
+            .max(255, "O objetivo não pode ultrapassar 255 caracteres")
+            .nonempty("Campo obrigatório"),
 
         nivelAtividadeFisica: z.enum(['SEDENTARIO', 'LEVE', 'MODERADO', 'INTENSO'], {
-            errorMap: () => ({ message: "O nível de atividade física é obrigatório" })
+            errorMap: () => ({ message: "Campo obrigatório" })
         }),
 
         alergias: z.array(z.string())
@@ -109,20 +112,17 @@ const UsuarioInfoForm = () => {
         console.log(data);
         api.post('cadastros/info/usuarios/novo', {
             dataRegistro: formattedDateTime,
-            dataNascimento: formattedFieldDateDefault(data.dataNascimento),
+            dataNascimento: formatDateToISO(data.dataNascimento, 1),
             idade: data.idade,
             sexoBiologico: data.sexoBiologico,
             nivelAtividadeFisica: data.nivelAtividadeFisica,
             objetivo: data.objetivo,
-            alergias: (data.alergias && data.alergias.length > 0) 
-                ? data.alergias.join(", ") 
-                : 'Sem alergias',
-            doencasPreExistentes: (data.doencasPreExistentes && data.doencasPreExistentes.length > 0) 
-                ? data.doencasPreExistentes.join(", ") 
-                : 'Sem doenças pré-existentes',
-            intolerancias: (data.intolerancias && data.intolerancias.length > 0) 
-                ? data.intolerancias.join(", ") 
-                : 'Sem intolerâncias',
+            alergias: (data.alergias && data.alergias.length > 0) ? data.alergias.join(", ") : 'Sem alergias',
+            doencasPreExistentes: (data.doencasPreExistentes && data.doencasPreExistentes.length > 0) ? data.doencasPreExistentes.join(", ") : 'Sem doenças pré-existentes',
+            intolerancias: (data.intolerancias && data.intolerancias.length > 0) ? data.intolerancias.join(", ") : 'Sem intolerâncias',
+            usuario: {
+                id: usuario_id
+            }
         }, {
             headers: {
                 'Content-Type': 'application/json'
@@ -150,13 +150,12 @@ const UsuarioInfoForm = () => {
     useEffect(() => {
         if (id) {
             setLoading(true);
-            api.get(`info/usuarios/${id}`)
+            api.get(`info/usuarios/${usuario_id}`)
                 .then(response => {
                     const infoUser = response.data;
-                    console.log(infoUser);
                     reset({
                         dataRegistro: infoUser.dataRegistro,
-                        dataNascimento: infoUser.dataNascimento,
+                        dataNascimento: formatDateToInvertedISO(infoUser.dataNascimento, 1),
                         idade: infoUser.idade,
                         sexoBiologico: infoUser.sexoBiologico,
                         nivelAtividadeFisica: infoUser.nivelAtividadeFisica,
@@ -187,7 +186,8 @@ const UsuarioInfoForm = () => {
                             idInput="dataNascimento"
                             autoFocus
                             idDiv={styled.dataNascimentoCampo}
-                            label="Data de Nascimento*"
+                            label="Data de Nascimento"
+                            obrigatorio={true}
                             type="date"
                             register={register}
                             error={errors.dataNascimento}
@@ -200,15 +200,14 @@ const UsuarioInfoForm = () => {
                             type="number"
                             readOnly                                                
                             {...register("idade")}
-                            error={errors.idade}
                         />
 
                         <div className={styled.formGroup} id={styled.sexoBiologicoCampo}>
-                            <label htmlFor="sexoBiologico">Sexo Biológico*</label>
+                            <label htmlFor="sexoBiologico">Sexo Biológico<span className={styled.obrigatorio}>*</span></label>
                             <Controller
                                 name="sexoBiologico"
                                 control={control}
-                                render={({ field, fieldState }) => (
+                                render={({ field }) => (
                                     <Select
                                         size='large'
                                         showSearch
@@ -218,7 +217,7 @@ const UsuarioInfoForm = () => {
                                         options={sexoBiologicoOptions}
                                         value={field.value} 
                                         onChange={(val) => field.onChange(val)}
-                                        status={fieldState.error ? "error" : ""}
+                                        
                                     />
                                 )}
                             /> 
@@ -232,11 +231,11 @@ const UsuarioInfoForm = () => {
                         
 
                         <div className={styled.formGroup} id={styled.doencasPreExistentesCampo}>
-                            <label htmlFor="doencasPreExistentes" id='doencasPreExistentes'>Doenças Pré-Existentes*</label>
+                            <label htmlFor="doencasPreExistentes" id='doencasPreExistentes'>Doenças Pré-Existentes</label>
                             <Controller
                                 name="doencasPreExistentes"
                                 control={control}
-                                render={({ field, fieldState }) => (
+                                render={({ field }) => (
                                     <Select
                                         size='large'
                                         {...field}
@@ -246,7 +245,7 @@ const UsuarioInfoForm = () => {
                                         options={doencasPreExistentesOptions}
                                         value={field.value} 
                                         onChange={(val) => field.onChange(val)}
-                                        status={fieldState.error ? "error" : ""}
+                                        
                                     />
                                 )}
                                 />
@@ -256,11 +255,11 @@ const UsuarioInfoForm = () => {
                         </div>
 
                         <div className={styled.formGroup} id={styled.alergiasCampo}>
-                        <label htmlFor="alergias" id='alergias'>Alergias*</label>
+                        <label htmlFor="alergias" id='alergias'>Alergias</label>
                             <Controller
                                 name="alergias"
                                 control={control}
-                                render={({ field, fieldState }) => (
+                                render={({ field }) => (
                                     <Select
                                         size='large'
                                         {...field}
@@ -270,7 +269,7 @@ const UsuarioInfoForm = () => {
                                         options={alergiasOptions}
                                         value={field.value} 
                                         onChange={(val) => field.onChange(val)}
-                                        status={fieldState.error ? "error" : ""}
+                                        
                                     />
                                 )}
                                 />
@@ -280,11 +279,11 @@ const UsuarioInfoForm = () => {
                         </div>
 
                         <div className={styled.formGroup} id={styled.intoleranciasCampo}>
-                        <label htmlFor="intolerancias" id='intolerancias'>Intolerâncias*</label>
+                        <label htmlFor="intolerancias" id='intolerancias'>Intolerâncias</label>
                             <Controller
                                 name="intolerancias"
                                 control={control}
-                                render={({ field, fieldState }) => (
+                                render={({ field }) => (
                                     <Select
                                         size='large'
                                         {...field}
@@ -294,7 +293,7 @@ const UsuarioInfoForm = () => {
                                         options={intoleranciasOptions}
                                         value={field.value} 
                                         onChange={(val) => field.onChange(val)}
-                                        status={fieldState.error ? "error" : ""}
+                                        
                                     />
                                 )}
                                 />
@@ -306,11 +305,11 @@ const UsuarioInfoForm = () => {
 
                     <div className={styled.row}>
                         <div className={styled.formGroup} id={styled.sexoBiologicoCampo}>
-                            <label htmlFor="nivelAtividadeFisica">Nível de atividade física</label>
+                            <label htmlFor="nivelAtividadeFisica">Nível de atividade física<span className={styled.obrigatorio}>*</span></label>
                             <Controller
                                 name="nivelAtividadeFisica"
                                 control={control}
-                                render={({ field, fieldState }) => (
+                                render={({ field }) => (
                                     <Select
                                         size='large'
                                         showSearch
@@ -320,7 +319,6 @@ const UsuarioInfoForm = () => {
                                         options={nivelAtividadeFisicaOptions}
                                         value={field.value} 
                                         onChange={(val) => field.onChange(val)}
-                                        status={fieldState.error ? "error" : ""}
                                     />
                                 )}
                             /> 
@@ -332,8 +330,9 @@ const UsuarioInfoForm = () => {
                         <InputField
                             idInput="objetivo"
                             idDiv={styled.objetivoCampo}
-                            label="Objetivo*"
+                            label="Objetivo"
                             type="text"
+                            obrigatorio={true}
                             register={register}
                             error={errors.objetivo}
                         />

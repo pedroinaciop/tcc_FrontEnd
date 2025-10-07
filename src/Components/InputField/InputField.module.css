@@ -48,3 +48,7 @@ input:read-only {
   position: relative;
   top: 0.125rem;
 }
+
+.obrigatorio {
+  color: var(--red);
+}
